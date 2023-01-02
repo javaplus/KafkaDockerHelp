@@ -113,7 +113,13 @@ Hosts file can be found at this location: C:\Windows\System32\drivers\etc  NOTE:
 #For kafka in docker
 127.0.0.1 kafka
 ```
+## Running Kafdrop
 
+[Kafdrop](https://github.com/obsidiandynamics/kafdrop) is a Web UI that gives a visual dashboard to what's going on with your Kafka Deployment.
+
+```
+docker run -d --rm -p 9000:9000 --network=kafka-nw -e KAFKA_BROKERCONNECT=kafka:9092 -e JVM_OPTS="-Xms32M -Xmx64M" -e SERVER_SERVLET_CONTEXTPATH="/" obsidiandynamics/kafdrop
+```
 
 ## Useful Commands
 
