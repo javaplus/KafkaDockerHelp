@@ -88,6 +88,12 @@ docker run -it -v c:/tmp/messages:/tmp --network=kafka-nw edenhill/kcat:1.7.1 -b
 This command uses the **-v** option to mount your local c:\tmp\messages folder to the containers /tmp folder.  This would assume the "mymessage.txt" is a file in that folder and therefore would be accessible in the container at /tmp/mymessage.txt.  Of course you can change the paths and file names as you see fit.
 **NOTE:** Do NOT try to use the **-v** option in windows while using gitbash or some other Bash emulator.  It confuses the paths and causes issues.  If using Windows, it's recommended to do volume mounts with docker commands in the command prompt or powershell.
 
+###### Producing with files (option 2) using a relative path in Windows and the --mount option:
+```CMD
+docker run -it --mount type=bind,src=%cd%,target=/tmp --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -P -t input-topic /tmp/order1.json
+```
+
+
 ## Consuming messages
  
  We will also use kcat to consume messages:
