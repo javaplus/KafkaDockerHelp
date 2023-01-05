@@ -129,6 +129,7 @@ docker run -d --rm -p 9000:9000 --network=kafka-nw -e KAFKA_BROKERCONNECT=kafka:
 
 ## Useful Commands
 
+##### Using Docker:
 ```
 # Get offsets for a topic
 docker exec -it -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 kafka kafka-get-offsets.sh --topic input-topic  --bootstrap-server localhost:9092
@@ -138,5 +139,16 @@ docker exec -it -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 kafka kafka-consum
 
 # Get details about specific consumer group and their offsets
 docker exec -it -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 kafka kafka-consumer-groups.sh --describe --group barry-demo  --bootstrap-server localhost:9092
+```
+
+##### Using local Windows install:
+```
+kafka-topics --list --bootstrap-server=localhost:9092
+
+kafka-topics --delete --topic input-topic --bootstrap-server=localhost:9092
+
+kafka-consumer-groups.bat --list --bootstrap-server=localhost:9092
+
+kafka-consumer-groups.bat --describe --group pizza-order-app --bootstrap-server=localhost:9092
 ```
 
