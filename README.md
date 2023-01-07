@@ -70,27 +70,27 @@ docker exec -it -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 kafka kafka-topics
 We are going to use a utility called [kcat](https://github.com/edenhill/kcat) to interact with Kafk for simple producing and consuming of messages.
 We are going to run kcat in a docker container as well.  Here's the command to produce messages:
 ```
-docker run -it --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -K : -P -t input-topic
+docker run -it --rm --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -K : -P -t input-topic
 ```
 This command assumes you will run it and then it will wait for you to type a KEY followed by a ':' and then the message you want to send.
 You can hit Enter between each message and then hit "CTRL+D" to send the messages.
 Example:
 ```
-C:\devl\kafka\DockerKafka>docker run -it --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -K , -P -t input-topic
+C:\devl\kafka\DockerKafka>docker run -it --rm --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -K , -P -t input-topic
 1:hello
 2:goodbye
 ```
 
 Producing messages using a file:
 ```
-docker run -it -v c:/tmp/messages:/tmp --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -P -t barry-topic /tmp/mymessage.txt
+docker run -it --rm -v c:/tmp/messages:/tmp --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -P -t barry-topic /tmp/mymessage.txt
 ```
 This command uses the **-v** option to mount your local c:\tmp\messages folder to the containers /tmp folder.  This would assume the "mymessage.txt" is a file in that folder and therefore would be accessible in the container at /tmp/mymessage.txt.  Of course you can change the paths and file names as you see fit.
 **NOTE:** Do NOT try to use the **-v** option in windows while using gitbash or some other Bash emulator.  It confuses the paths and causes issues.  If using Windows, it's recommended to do volume mounts with docker commands in the command prompt or powershell.
 
 ###### Producing with files (option 2) using a relative path in Windows and the --mount option:
 ```CMD
-docker run -it --mount type=bind,src=%cd%,target=/tmp --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -P -t input-topic /tmp/order1.json
+docker run -it --rm --mount type=bind,src=%cd%,target=/tmp --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -P -t input-topic /tmp/order1.json
 ```
 
 
@@ -98,12 +98,12 @@ docker run -it --mount type=bind,src=%cd%,target=/tmp --network=kafka-nw edenhil
  
  We will also use kcat to consume messages:
  ```
- docker run -it --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -C -t input-topic
+ docker run -it --rm --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -C -t input-topic
  ```
  This command will read messages from the topic named "input-topic" and then output the message to the standard out.
 Example:
 ```
- C:\devl\kafka\DockerKafka>docker run -it --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -C -t input-topic
+ C:\devl\kafka\DockerKafka>docker run -it --rm --network=kafka-nw edenhill/kcat:1.7.1 -b kafka:9092 -C -t input-topic
 1:hello
 2:goodbye
 % Reached end of topic input-topic [0] at offset 2
